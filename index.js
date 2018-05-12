@@ -128,8 +128,157 @@
  */
 
 /**
+ * Sets a value within an Object or Array. Constructs the next level based on type of key if necessary.
  *
+ * @memberof deep-props.set
+ * @param    {deep-props.set~Target} target - Current reference to a given level of the path.
+ * @param    {deep-props.set~Key}    key    - Key to construct within.
+ * @param    {*}                     [data] - Data to set within target at key.
  */
-const set = (host, path, opt, data) => {
-
+const setWithinStandard = (target, key, data) => {
+  if (!isNaN(key)) {
+    if (data !== undefined) {
+      target[key] = data
+    } else {
+      target[key] = []
+    }
+  } else if (typeof key === 'string') {
+    if (data !== undefined) {
+      target[key] = data
+    } else {
+      target[key] = {}
+    }
+  } else {
+    if (data !== undefined) {
+      target[key] = data
+    } else {
+      target[key] = new Map()
+    }
+  }
 }
+
+/**
+ * Defines a value within an object at a key. Uses key and options to determine the type of constructor to be used. If data is provided, sets a value at key.
+ *
+ * @memberof deep-props.set
+ * @param    {deep-props.set~Target}  target - Current reference to a given level of the path.
+ * @param    {deep-props.set~Key}     key    - Key to construct within.
+ * @param    {deep-props.set~Depth}   depth  - Current level of path.
+ * @param    {*}                      data   - Data to set within target at key.
+ * @param    {deep-props.set~Options} opt    - Execution settings.
+ * @returns  {deep-props.set~Target}  New reference.
+ */
+const setAtKey = (target, key, depth, data, opt) => {
+  let newTarget
+  if (opt.setCustomizer instanceof Function) {
+    newTarget = opt.setCustomizer(target, key, depth, data)
+  }
+  if (newTarget !== undefined) {
+    return newTarget
+  } else {
+    if (
+      target instanceof Object ||
+      target instanceof Array
+    ) {
+      setWithinStandard(target, key, data)
+    } else if (
+      target instanceof Map ||
+      target instanceof WeakMap
+    ) {
+      // setWithinMap(target, key, data)
+    } else if (
+      target instanceof Set ||
+      target instanceof WeakSet
+    ) {
+      // setWithinSet(target, key, data)
+    } else {
+      throw Error('Could not set data.')
+    }
+    return target[key]
+  }
+}
+
+/**
+ * Iterates along the supplied path and shifts a reference point along the way. Sets data to last key in path.
+ *
+ * @generator
+ * @memberof deep-props.set
+ * @param   {deep-props.set~Host} host - Base container dataset to search within.
+ * @param   {deep-props.set~Path} path - Path to desired property.
+ * @param   {*} data - Data to set at endpoint of path.
+ * @param   {deep-props.set~Options} opt - Execution settings.
+ * @yields  {deep-props.set~Target} Data retrieved at each level of execution; value of Target before reassignment.
+ * @returns {undefined} Returns undefined if search has finished executing or if the desired value has not been found.
+ */
+const place = function * (host, path, data, opt) {
+  try {
+    let target = host
+    let get
+    try {
+      get = require('../get')
+    } catch (e) {
+      get = require('deep-props.get')
+    }
+    let query = get(host, path.slice(0, -1), { ...opt, ...{ gen: true } })
+    let depth = 0
+    for (let result of query) {
+      if (result !== undefined) {
+        target = result
+        depth++
+        yield target
+      }
+    }
+    path = path.slice(depth)
+    for (let key of path.slice(0, -1)) {
+      try {
+        target = setAtKey(target, key, depth, undefined, opt)
+        depth++
+      } catch (e) {
+        yield false
+        return undefined
+      }
+    }
+    try {
+      setAtKey(target, path[path.length - 1], depth, data, opt)
+      yield true
+    } catch (e) {
+      yield false
+    }
+  } catch (e) {
+    yield false
+    return undefined
+  }
+}
+
+/**
+ * Sets a value within a nested data structure given a path. Creates structure if the path is not found. Supports setting values within Objects, Arrays, Maps, Sets, and WeakMaps; supports creation of Objects, Arrays, and Maps.
+ *
+ * @module  set
+ * @param   {deep-props.set~Host} host - Container to search within.
+ * @param   {deep-props.set~Path} path - Path to desired property.
+ * @param   {*} data - Data to set at endpoint of path.
+ * @param   {deep-props.set~Options} [opt={}] - Execution settings.
+ * @returns {(boolean|deep-props.set~ResultGenerator)} True if successful, false if not. If <code>opt.gen === true</code>, returns a generator that yields each search step.
+ */
+const set = (host, path, data, opt = {}) => {
+  if (
+    host === undefined ||
+    path === undefined ||
+    data === undefined
+  ) {
+    throw Error('Bad args')
+  }
+  if (typeof path === 'string') {
+    path = path.match(opt.match instanceof RegExp
+      ? opt.match
+      : /[^.[\]]+/g)
+  }
+  if (!(path instanceof Array)) throw Error('Bad path')
+  const operation = place(host, path, data, opt)
+  if (opt.gen === true) return operation
+  let result
+  for (let response of operation) result = response
+  return result
+}
+
+module.exports = set
