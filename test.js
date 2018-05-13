@@ -172,6 +172,122 @@ tests.push(() => {
   return { data, description, operations }
 })
 
+// --- Test 5: --- //
+
+tests.push(() => {
+  const description = `Testing setting within existing Map structure...${
+    '\n\nData Preparation:'
+  }
+    const data = new Map().set(
+      'foo', new Map().set(
+        'bar', new Map().set(
+          'baz', new Map().set(
+            'beh', 'qux'
+          )
+        )
+      )
+    )`
+  const operations = []
+  const data = new Map().set(
+    'foo', new Map().set(
+      'bar', new Map().set(
+        'baz', new Map().set(
+          'beh', 'qux'
+        )
+      )
+    )
+  )
+
+  operations.push({
+    expect: new Map().set(
+      'foo', new Map().set(
+        'bar', new Map().set(
+          'baz', new Map().set(
+            'beh', 'quux'
+          )
+        )
+      )
+    ),
+    result: () => {
+      set(data, [ 'foo', 'bar', 'baz', 'beh' ], 'quux')
+      return data
+    }
+  })
+  return { data, description, operations }
+})
+
+// --- Test 6: --- //
+
+tests.push(() => {
+  const description = `Testing setting within existing Set structure...${
+    '\n\nData Preparation:'
+  }
+    const data = new Set().add(
+      new Set().add(
+        new Set().add(
+          new Set().add(
+            'foo'
+          )
+        )
+      )
+    )`
+  const operations = []
+  const data = new Set().add(
+    new Set().add(
+      new Set().add(
+        new Set().add(
+          'foo'
+        )
+      )
+    )
+  )
+
+  operations.push({
+    expect: new Set().add(
+      new Set().add(
+        new Set().add(
+          new Set().add(
+            'bar'
+          )
+        )
+      )
+    ),
+    result: () => {
+      set(data, [ 0, 0, 0, 0 ], 'bar')
+      return data
+    }
+  })
+  return { data, description, operations }
+})
+
+// --- Test 7: --- //
+
+tests.push(() => {
+  const description = `Testing setting within new Map structure...${
+    '\n\nData Preparation:'
+  }
+    const data = new Map()`
+  const operations = []
+  const data = new Map()
+
+  operations.push({
+    expect: new Map().set(
+      ['foo'], new Map().set(
+        ['bar'], new Map().set(
+          ['baz'], new Map().set(
+            ['beh'], 'qux'
+          )
+        )
+      )
+    ),
+    result: () => {
+      set(data, [ ['foo'], ['bar'], ['baz'], ['beh'] ], 'qux')
+      return data
+    }
+  })
+  return { data, description, operations }
+})
+
 /**
  * Output of the run function for use in external testing scripts.
  *
