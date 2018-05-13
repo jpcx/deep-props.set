@@ -136,21 +136,35 @@
  * @param    {*}                     [data] - Data to set within target at key.
  */
 const setWithinStandard = (target, key, data) => {
-  if (!isNaN(key)) {
-    if (data !== undefined) {
-      target[key] = data
-    } else {
-      target[key] = []
-    }
-  } else if (typeof key === 'string') {
-    if (data !== undefined) {
-      target[key] = data
-    } else {
-      target[key] = {}
-    }
+  if (data !== undefined) {
+    target[key] = data
   } else {
-    if (data !== undefined) {
-      target[key] = data
+    if (!isNaN(key)) {
+      target[key] = []
+    } else if (typeof key === 'string') {
+      target[key] = {}
+    } else {
+      target[key] = new Map()
+    }
+  }
+}
+
+/**
+ * Sets a value within an Map or WeakMap. Constructs the next level based on type of key if necessary.
+ *
+ * @memberof deep-props.set
+ * @param    {deep-props.set~Target} target - Current reference to a given level of the path.
+ * @param    {deep-props.set~Key}    key    - Key to construct within.
+ * @param    {*}                     [data] - Data to set within target at key.
+ */
+const setWithinMap = (target, key, data) => {
+  if (data !== undefined) {
+    target[key] = data
+  } else {
+    if (!isNaN(key)) {
+      target[key] = []
+    } else if (typeof key === 'string') {
+      target[key] = {}
     } else {
       target[key] = new Map()
     }
@@ -185,7 +199,7 @@ const setAtKey = (target, key, depth, data, opt) => {
       target instanceof Map ||
       target instanceof WeakMap
     ) {
-      // setWithinMap(target, key, data)
+      setWithinMap(target, key, data)
     } else if (
       target instanceof Set ||
       target instanceof WeakSet
