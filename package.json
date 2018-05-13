@@ -1,7 +1,7 @@
 {
   "name": "deep-props.set",
   "version": "0.1.0",
-  "description": "Sets a value within a nested data structure given a path. Creates structure if the path is not found.",
+  "description": "Sets a value within a nested data structure given a path. Creates structure if the path is not found. Supports setting values within Objects, Arrays, Maps, Sets, and WeakMaps; supports creation of Objects, Arrays, and Maps.",
   "engines": {
     "node": ">=8.7.0"
   },
@@ -33,7 +33,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "deep-props.get": "^0.1.3"
+    "deep-props.get": "^0.1.4"
   },
   "devDependencies": {
     "assert": "^1.4.1",

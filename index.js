@@ -138,10 +138,23 @@
 const setWithinStandard = (target, key, data) => {
   if (data !== undefined) {
     target[key] = data
+    return data
   } else {
-    if (!isNaN(key)) target[key] = []
-    else if (typeof key === 'string') target[key] = {}
-    else target[key] = new Map()
+    let newVal
+    if (
+      !isNaN(+key) && (
+        typeof key === 'string' ||
+        typeof key === 'number'
+      )
+    ) {
+      newVal = []
+    } else if (typeof key === 'string') {
+      newVal = {}
+    } else {
+      newVal = new Map()
+    }
+    target[key] = newVal
+    return newVal
   }
 }
 
@@ -154,12 +167,26 @@ const setWithinStandard = (target, key, data) => {
  * @param    {*}                     [data] - Data to set within target at key.
  */
 const setWithinMap = (target, key, data) => {
+  console.log(key)
   if (data !== undefined) {
     target.set(key, data)
+    return data
   } else {
-    if (!isNaN(key)) target[key] = []
-    else if (typeof key === 'string') target[key] = {}
-    else target[key] = new Map()
+    let newVal
+    if (
+      !isNaN(+key) && (
+        typeof key === 'string' ||
+        typeof key === 'number'
+      )
+    ) {
+      newVal = []
+    } else if (typeof key === 'string') {
+      newVal = {}
+    } else {
+      newVal = new Map()
+    }
+    target.set(key, newVal)
+    return newVal
   }
 }
 
@@ -174,10 +201,24 @@ const setWithinMap = (target, key, data) => {
 const setWithinSet = (target, key, data) => {
   if (data !== undefined) {
     target.add(data)
+    return data
   } else {
-    if (!isNaN(key)) target[key] = []
-    else if (typeof key === 'string') target[key] = {}
-    else target[key] = new Map()
+    // need to account for insertion order!
+    let newVal
+    if (
+      !isNaN(+key) && (
+        typeof key === 'string' ||
+        typeof key === 'number'
+      )
+    ) {
+      newVal = []
+    } else if (typeof key === 'string') {
+      newVal = {}
+    } else {
+      newVal = new Map()
+    }
+    target.add(newVal)
+    return newVal
   }
 }
 
@@ -201,24 +242,23 @@ const setAtKey = (target, key, depth, data, opt) => {
     return newTarget
   } else {
     if (
-      target instanceof Object ||
-      target instanceof Array
-    ) {
-      setWithinStandard(target, key, data)
-    } else if (
       target instanceof Map ||
       target instanceof WeakMap
     ) {
-      setWithinMap(target, key, data)
+      return setWithinMap(target, key, data)
     } else if (
       target instanceof Set ||
       target instanceof WeakSet
     ) {
-      setWithinSet(target, key, data)
+      return setWithinSet(target, key, data)
+    } else if (
+      target instanceof Object ||
+      target instanceof Array
+    ) {
+      return setWithinStandard(target, key, data)
     } else {
       throw Error('Could not set data.')
     }
-    return target[key]
   }
 }
 
@@ -252,8 +292,7 @@ const place = function * (host, path, data, opt) {
         yield target
       }
     }
-    path = path.slice(depth)
-    for (let key of path.slice(0, -1)) {
+    for (let key of path.slice(depth, -1)) {
       try {
         target = setAtKey(target, key, depth, undefined, opt)
         depth++
@@ -263,7 +302,7 @@ const place = function * (host, path, data, opt) {
       }
     }
     try {
-      setAtKey(target, path[path.length - 1], depth, data, opt)
+      setAtKey(target, path.slice(-1)[0], depth, data, opt)
       yield true
     } catch (e) {
       yield false
