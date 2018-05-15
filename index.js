@@ -200,10 +200,47 @@ const setWithinMap = (target, key, data) => {
  */
 const setWithinSet = (target, key, data) => {
   if (data !== undefined) {
-    target.add(data)
-    return data
+    if (data !== key) {
+      if (
+        !isNaN(+key) && (
+          typeof key === 'string' ||
+          typeof key === 'number'
+        )
+      ) {
+        if (target instanceof Set) {
+          if (+key <= target.size) {
+            if (+key === target.size - 1) {
+              target.delete([...target][+key])
+              target.add(data)
+              return data
+            } else if (+key < target.size - 1) {
+              const cache = [...target]
+              for (let i = +key; i < target.size; i++) {
+                target.delete(cache[i])
+              }
+              target.add(data)
+              for (let i = +key + 1; i < target.size; i++) {
+                target.add(cache[i])
+              }
+              return data
+            } else {
+              target.add(data)
+              return data
+            }
+          } else {
+            throw Error('Iteration order out of bounds')
+          }
+        } else {
+          throw Error('Cannot enumerate WeakSets')
+        }
+      } else {
+        throw Error('Invalid iteration order')
+      }
+    } else {
+      target.add(data)
+      return data
+    }
   } else {
-    // need to account for insertion order!
     let newVal
     if (
       !isNaN(+key) && (
