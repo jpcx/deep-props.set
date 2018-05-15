@@ -288,6 +288,44 @@ tests.push(() => {
   return { data, description, operations }
 })
 
+// --- Test 8: --- //
+
+tests.push(() => {
+  const description = `Testing setting within existing Set structure; replacing value within middle of set...${
+    '\n\nData Preparation:'
+  }
+    const data = new Set().add(
+      new Set().add(
+        new Set().add(
+          new Set([ 'foo', 'bar', 'baz', 'beh', 'qux', 'quz' ])
+        )
+      )
+    )`
+  const operations = []
+  const data = new Set().add(
+    new Set().add(
+      new Set().add(
+        new Set([ 'foo', 'bar', 'baz', 'beh', 'qux', 'quz' ])
+      )
+    )
+  )
+
+  operations.push({
+    expect: new Set().add(
+      new Set().add(
+        new Set().add(
+          new Set([ 'foo', 'bar', 'foobar', 'beh', 'qux', 'quz' ])
+        )
+      )
+    ),
+    result: () => {
+      set(data, [ 0, 0, 0, 2 ], 'foobar')
+      return data
+    }
+  })
+  return { data, description, operations }
+})
+
 /**
  * Output of the run function for use in external testing scripts.
  *

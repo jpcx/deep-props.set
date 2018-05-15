@@ -215,11 +215,11 @@ const setWithinSet = (target, key, data) => {
               return data
             } else if (+key < target.size - 1) {
               const cache = [...target]
-              for (let i = +key; i < target.size; i++) {
+              for (let i = +key; i < cache.length; i++) {
                 target.delete(cache[i])
               }
               target.add(data)
-              for (let i = +key + 1; i < target.size; i++) {
+              for (let i = +key + 1; i < cache.length; i++) {
                 target.add(cache[i])
               }
               return data
