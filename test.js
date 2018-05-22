@@ -219,7 +219,77 @@ tests.push(() => {
 // --- Test 6: --- //
 
 tests.push(() => {
-  const description = `Testing setting within existing Set structure...${
+  const description = `Testing setting within new Map structure...${
+    '\n\nData Preparation:'
+  }
+    const data = new Map()`
+  const operations = []
+  const data = new Map()
+
+  operations.push({
+    expect: new Map().set(
+      ['foo'], new Map().set(
+        ['bar'], new Map().set(
+          ['baz'], new Map().set(
+            ['beh'], 'qux'
+          )
+        )
+      )
+    ),
+    result: () => {
+      set(data, [ ['foo'], ['bar'], ['baz'], ['beh'] ], 'qux')
+      return data
+    }
+  })
+  return { data, description, operations }
+})
+
+// --- Test 7: --- //
+
+tests.push(() => {
+  const description = `Testing setting within existing Set structure; adding value to set...${
+    '\n\nData Preparation:'
+  }
+    const data = new Set().add(
+      new Set().add(
+        new Set().add(
+          new Set().add(
+            'foo'
+          )
+        )
+      )
+    )`
+  const operations = []
+  const data = new Set().add(
+    new Set().add(
+      new Set().add(
+        new Set().add(
+          'foo'
+        )
+      )
+    )
+  )
+
+  operations.push({
+    expect: new Set().add(
+      new Set().add(
+        new Set().add(
+          new Set([ 'foo', 'bar' ])
+        )
+      )
+    ),
+    result: () => {
+      set(data, [ 0, 0, 0, 1 ], 'bar')
+      return data
+    }
+  })
+  return { data, description, operations }
+})
+
+// --- Test 8: --- //
+
+tests.push(() => {
+  const description = `Testing setting within existing Set structure; replacing value at end of set...${
     '\n\nData Preparation:'
   }
     const data = new Set().add(
@@ -260,35 +330,7 @@ tests.push(() => {
   return { data, description, operations }
 })
 
-// --- Test 7: --- //
-
-tests.push(() => {
-  const description = `Testing setting within new Map structure...${
-    '\n\nData Preparation:'
-  }
-    const data = new Map()`
-  const operations = []
-  const data = new Map()
-
-  operations.push({
-    expect: new Map().set(
-      ['foo'], new Map().set(
-        ['bar'], new Map().set(
-          ['baz'], new Map().set(
-            ['beh'], 'qux'
-          )
-        )
-      )
-    ),
-    result: () => {
-      set(data, [ ['foo'], ['bar'], ['baz'], ['beh'] ], 'qux')
-      return data
-    }
-  })
-  return { data, description, operations }
-})
-
-// --- Test 8: --- //
+// --- Test 9: --- //
 
 tests.push(() => {
   const description = `Testing setting within existing Set structure; replacing value within middle of set...${
@@ -320,6 +362,39 @@ tests.push(() => {
     ),
     result: () => {
       set(data, [ 0, 0, 0, 2 ], 'foobar')
+      return data
+    }
+  })
+  return { data, description, operations }
+})
+
+// --- Test 10: --- //
+
+tests.push(() => {
+  const description = `Testing multiple type creation; origin Object...${
+    '\n\nData Preparation:'
+  }
+    const data = {}`
+  const operations = []
+  const data = {}
+
+  operations.push({
+    expect: {
+      foo: [
+        new Map().set(
+          ['bar'], {
+            baz: [
+              new Map().set(
+                ['beh'], 'qux'
+              )
+            ]
+          }
+        )
+      ]
+    },
+    result: () => {
+      set(data, [ 'foo', 0, ['bar'], 'baz', 0, ['beh'] ], 'qux')
+      console.dir(data, { depth: null, colors: true })
       return data
     }
   })
