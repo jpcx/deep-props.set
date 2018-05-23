@@ -904,6 +904,66 @@ tests.push(() => {
   return { data, description, operations }
 })
 
+// --- Test 18: --- //
+
+tests.push(() => {
+  const description = `Testing force constructor option...${
+    '\n\nData Preparation:'
+  }
+    const data = new Map()`
+  const operations = []
+
+  const data = {
+    obj: {},
+    map: new Map(),
+    set: new Set()
+  }
+
+  operations.push({
+    expect: {
+      0: {
+        0: {
+          0: 'foo'
+        }
+      }
+    },
+    result: () => {
+      set(data.obj, [ 0, 0, 0 ], 'foo', { forceConstructor: Object })
+      return data.obj
+    }
+  })
+
+  operations.push({
+    expect: new Map().set(
+      'foo', new Map().set(
+        'bar', new Map().set(
+          'baz', 'beh'
+        )
+      )
+    ),
+    result: () => {
+      set(data.map, [ 'foo', 'bar', 'baz' ], 'beh', { forceConstructor: Map })
+      return data.map
+    }
+  })
+
+  operations.push({
+    expect: new Set([
+      new Set([
+        new Set([
+          'foo'
+        ])
+      ])
+    ]),
+    result: () => {
+      set(data.set, [ 0, 0, 0 ], 'foo', { forceConstructor: Set })
+      return data.set
+    }
+  })
+
+  return { data, description, operations }
+})
+
 /**
  * Output of the run function for use in external testing scripts.
  *

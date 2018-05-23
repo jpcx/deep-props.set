@@ -240,17 +240,22 @@ const setWithinSet = (target, key, data) => {
  */
 const setWithin = (target, key, nextKey, depth, isLast, data, opt) => {
   if (!isLast) {
-    if (
-      !isNaN(+nextKey) && (
-        typeof nextKey === 'string' ||
-        typeof nextKey === 'number'
-      )
-    ) {
-      data = []
-    } else if (typeof nextKey === 'string') {
-      data = {}
+    if (opt.hasOwnProperty('forceConstructor')) {
+      let Constructor = opt.forceConstructor
+      data = new Constructor()
     } else {
-      data = new Map()
+      if (
+        !isNaN(+nextKey) && (
+          typeof nextKey === 'string' ||
+          typeof nextKey === 'number'
+        )
+      ) {
+        data = []
+      } else if (typeof nextKey === 'string') {
+        data = {}
+      } else {
+        data = new Map()
+      }
     }
   }
   if (opt.setCustomizer instanceof Function) {
