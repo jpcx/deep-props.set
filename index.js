@@ -136,8 +136,12 @@
  * @param    {*}                     [data]  - Data to set within target at key.
  */
 const setWithinStandard = (target, key, data) => {
-  target[key] = data
-  return data
+  if (typeof key === 'string' || typeof key === 'number') {
+    target[key] = data
+    return data
+  } else {
+    throw Error('Invalid Host type')
+  }
 }
 
 /**
@@ -270,45 +274,31 @@ const setWithin = (target, key, nextKey, depth, isLast, data, opt) => {
  * @returns {undefined} Returns undefined if search has finished executing or if the desired value has not been found.
  */
 const place = function * (host, path, data, opt) {
+  let target = host
+  let get
   try {
-    let target = host
-    let get
-    try {
-      get = require('../get')
-    } catch (e) {
-      get = require('deep-props.get')
-    }
-    let query = get(host, path.slice(0, -1), { ...opt, ...{ gen: true } })
-    let depth = 0
-    for (let result of query) {
-      if (result !== undefined) {
-        target = result
-        depth++
-        yield target
-      }
-    }
-    for (let i = depth; i < path.length - 1; i++) {
-      try {
-        target = setWithin(
-          target, path[i], path[i + 1], depth, false, undefined, opt
-        )
-        yield host
-        depth++
-      } catch (e) {
-        yield false
-        return undefined
-      }
-    }
-    try {
-      setWithin(target, path.slice(-1)[0], undefined, depth, true, data, opt)
-      yield true
-    } catch (e) {
-      yield false
-    }
+    get = require('../get')
   } catch (e) {
-    yield false
-    return undefined
+    get = require('deep-props.get')
   }
+  let query = get(host, path.slice(0, -1), { ...opt, ...{ gen: true } })
+  let depth = 0
+  for (let result of query) {
+    if (result !== undefined) {
+      target = result
+      depth++
+      yield target
+    }
+  }
+  for (let i = depth; i < path.length - 1; i++) {
+    target = setWithin(
+      target, path[i], path[i + 1], depth, false, undefined, opt
+    )
+    yield host
+    depth++
+  }
+  setWithin(target, path.slice(-1)[0], undefined, depth, true, data, opt)
+  yield true
 }
 
 /**

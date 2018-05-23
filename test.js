@@ -371,6 +371,43 @@ tests.push(() => {
 // --- Test 10: --- //
 
 tests.push(() => {
+  const description = `Testing setting within WeakMaps and WeakSets...${
+    '\n\nData Preparation:'
+  }
+    const data = {
+      weakMap: new WeakMap(),
+      weakSet: new WeakSet()
+    }()`
+  const operations = []
+  const data = {
+    weakMap: new WeakMap(),
+    weakSet: new WeakSet()
+  }
+
+  operations.push({
+    expect: true,
+    result: () => {
+      const key = ['foo']
+      set(data.weakMap, [key], 'bar')
+      return data.weakMap.has(key)
+    }
+  })
+
+  operations.push({
+    expect: true,
+    result: () => {
+      const key = ['foo']
+      set(data.weakSet, [key], key)
+      return data.weakSet.has(key)
+    }
+  })
+
+  return { data, description, operations }
+})
+
+// --- Test 11: --- //
+
+tests.push(() => {
   const description = `Testing multiple type creation; origin Object...${
     '\n\nData Preparation:'
   }
@@ -397,6 +434,331 @@ tests.push(() => {
       return data
     }
   })
+  return { data, description, operations }
+})
+
+// --- Test 12: --- //
+
+tests.push(() => {
+  const description = `Testing multiple type creation; origin Array...${
+    '\n\nData Preparation:'
+  }
+    const data = []`
+  const operations = []
+  const data = []
+
+  operations.push({
+    expect: [
+      {
+        foo: new Map().set(
+          ['bar'], [
+            {
+              baz: new Map().set(
+                ['beh'], 'qux'
+              )
+            }
+          ]
+        )
+      }
+    ],
+    result: () => {
+      set(data, [ 0, 'foo', ['bar'], 0, 'baz', ['beh'] ], 'qux')
+      return data
+    }
+  })
+  return { data, description, operations }
+})
+
+// --- Test 13: --- //
+
+tests.push(() => {
+  const description = `Testing multiple type creation; origin Map...${
+    '\n\nData Preparation:'
+  }
+    const data = new Map()`
+  const operations = []
+  const data = new Map()
+
+  operations.push({
+    expect: new Map().set(
+      ['foo'], {
+        bar: [
+          new Map().set(
+            ['baz'], {
+              beh: [
+                'qux'
+              ]
+            }
+          )
+        ]
+      }
+    ),
+    result: () => {
+      set(data, [ ['foo'], 'bar', 0, ['baz'], 'beh', 0 ], 'qux')
+      return data
+    }
+  })
+  return { data, description, operations }
+})
+
+// --- Test 14: --- //
+
+tests.push(() => {
+  const description = `Testing invalid origin...${
+    '\n\nData Preparation:'
+  }
+    const data = {}`
+  const operations = []
+  const data = {}
+
+  operations.push({
+    expect: true,
+    result: () => {
+      try {
+        set(data, [['foo']], 'bar')
+        return false
+      } catch (err) {
+        if (err.message === 'Invalid Host type') {
+          return true
+        } else {
+          return false
+        }
+      }
+    }
+  })
+  return { data, description, operations }
+})
+
+// --- Test 15: --- //
+
+tests.push(() => {
+  const description = `Testing invalid Set operations...${
+    '\n\nData Preparation:'
+  }
+    const data = {
+      set: new Set(),
+      weakSet: new WeakSet()
+    }()`
+  const operations = []
+  const data = {
+    set: new Set(),
+    weakSet: new WeakSet()
+  }
+
+  operations.push({
+    expect: true,
+    result: () => {
+      try {
+        set(data.set, [1], 'foo')
+        return false
+      } catch (err) {
+        if (err.message === 'Iteration order out of bounds') {
+          return true
+        } else {
+          return false
+        }
+      }
+    }
+  })
+
+  operations.push({
+    expect: true,
+    result: () => {
+      try {
+        set(data.weakSet, [0], 'foo')
+        return false
+      } catch (err) {
+        if (err.message === 'Cannot enumerate WeakSets') {
+          return true
+        } else {
+          return false
+        }
+      }
+    }
+  })
+
+  operations.push({
+    expect: true,
+    result: () => {
+      try {
+        set(data.set, ['bar'], 'foo')
+        return false
+      } catch (err) {
+        if (err.message === 'Invalid iteration order') {
+          return true
+        } else {
+          return false
+        }
+      }
+    }
+  })
+  return { data, description, operations }
+})
+
+// --- Test 16: --- //
+
+tests.push(() => {
+  const description = `Testing string paths...${
+    '\n\nData Preparation:'
+  }
+    const data = {}`
+
+  const operations = []
+
+  const data = {}
+
+  operations.push({
+    expect: {
+      foo: {
+        bar: {
+          baz: 'beh'
+        }
+      }
+    },
+    result: () => {
+      Object.keys(data).forEach(x => delete data[x])
+      set(data, 'foo.bar.baz', 'beh')
+      return data
+    }
+  })
+
+  operations.push({
+    expect: {
+      foo: {
+        bar: {
+          baz: 'beh'
+        }
+      }
+    },
+    result: () => {
+      Object.keys(data).forEach(x => delete data[x])
+      set(data, 'foo[bar][baz]', 'beh')
+      return data
+    }
+  })
+
+  operations.push({
+    expect: {
+      foo: [
+        [
+          [
+            'bar'
+          ]
+        ]
+      ]
+    },
+    result: () => {
+      Object.keys(data).forEach(x => delete data[x])
+      set(data, 'foo[0][0][0]', 'bar')
+      return data
+    }
+  })
+
+  operations.push({
+    expect: {
+      foo: {
+        bar: {
+          baz: 'beh'
+        }
+      }
+    },
+    result: () => {
+      Object.keys(data).forEach(x => delete data[x])
+      set(data, 'foo/bar/baz', 'beh', { match: /[^/]+/g })
+      return data
+    }
+  })
+
+  return { data, description, operations }
+})
+
+// --- Test 17: --- //
+
+tests.push(() => {
+  const description = `Testing custom data structures...${
+    '\n\nData Preparation:'
+  }
+    /**
+     * Sample data structure which uses a 'retrieve' method for data access.
+     */
+    class NonNativeDataStructure {
+      constructor(arr) {
+        const values = [...arr]
+        this.retrieve = i => values[i]
+      }
+    }
+
+    // here we are using another data structure that requires custom extraction
+    let testAB = new ArrayBuffer(16)
+
+    const data = new NonNativeDataStructure([
+      {
+        foo: {
+          bar: {
+            baz: testAB
+          }
+        }
+      }
+    ])`
+  const operations = []
+
+  /**
+   * Sample data structure which uses a 'retrieve' method for data access.
+   *
+   * @private
+   * @class
+   */
+  class NonNativeDataStructure {
+    /**
+     * Stores array and initializes get method.
+     *
+     * @private
+     * @param {Array} arr - Array to store.
+     * @example
+     * // returns 3
+     * const hiddenData = new NonNativeDataStructure([1,2,3])
+     * hiddenData.get(2)
+     */
+    constructor (arr) {
+      const values = [...arr]
+      this.retrieve = i => values[i]
+    }
+  }
+
+  // here we are using another data structure that requires custom extraction
+  let testAB = new ArrayBuffer(16)
+
+  const data = new NonNativeDataStructure([
+    {
+      foo: {
+        bar: {
+          baz: testAB
+        }
+      }
+    }
+  ])
+
+  operations.push({
+    expect: 3,
+    result: () => {
+      set(data, [ 0, 'foo', 'bar', 'baz', 2 ], 3, {
+        getCustomizer: (target, key) => {
+          if (target instanceof NonNativeDataStructure) {
+            return target.retrieve(key)
+          }
+        },
+        setCustomizer: (target, key, depth, data) => {
+          if (target instanceof ArrayBuffer && target.byteLength === 16) {
+            new Int16Array(target)[key] = data
+            return true
+          }
+        }
+      })
+
+      return new Int16Array(data.retrieve(0).foo.bar.baz)[2]
+    }
+  })
+
   return { data, description, operations }
 })
 
