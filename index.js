@@ -1,6 +1,6 @@
 /**
  * @author Justin Collier <jpcxme@gmail.com>
- * @see {@link http://github.com/jpcx/deep-props|GitHub}
+ * @see {@link http://github.com/jpcx/deep-props.set|GitHub}
  * @license MIT
  */
 
@@ -45,6 +45,7 @@
 
 /**
  * Generator object which yields stepwise operation results.
+ * While exploring existing structures, yields each value found along the way. During structure creation operations, yields Host after each modification.
  *
  * @typedef {Object} deep-props.set~ResultGenerator
  */
@@ -74,9 +75,9 @@
  *   <li> Returns undefined if Target is not compatible with the filter.
  * </ul>
  *
- * @typedef {function} deep-props.set~GetCustomizer
- * @param   {deep-props.set~Target} target - Current data being analyzed
- * @param   {deep-props.set~Key}    key    - Next key along the path
+ * @typedef {Function} deep-props.set~GetCustomizer
+ * @param   {deep-props.set~Target} target - Current data being analyzed.
+ * @param   {deep-props.set~Key}    key    - Next key along the path.
  * @returns {deep-props.set~Target} Value to pass along to the search function as the next Target. If undefined, will fall back on using standard extraction methods to find the next Target.
  * @example
  * (target, key) => {
@@ -87,11 +88,36 @@
  */
 
 /**
+ * Function used for custom handling of setting values within a data structure.
+ * <ul>
+ *   <li> Allows for extraction from container objects that are not directly supported.
+ *   <li> Returns true if successful.
+ *   <li> Returns undefined if Target is not compatible with the filter.
+ * </ul>
+ *
+ * @typedef {Function} deep-props.set~SetCustomizer
+ * @param   {deep-props.set~Target} target - Current data being analyzed.
+ * @param   {deep-props.set~Key}    key    - Next key along the path.
+ * @param   {number}                depth  - Current level of depth within the data structure (used for further customization).
+ * @param   {*}                     data   - Data to set.
+ * @returns {(boolean|undefined)} True if successful, undefined if not applicable.
+ * @example
+ * (target, key, depth, data) => {
+ *   if (target instanceof ArrayBuffer && target.byteLength === 16) {
+ *     new Int16Array(target)[key] = data
+ *     return true
+ *   }
+ * }
+ */
+
+/**
  * Settings for customizing behaviour.
  *
  * @typedef  {Object}  deep-props.set~Options
- * @property {Boolean} [gen] - If true, module returns a generator that yields each search step and returns the final value.
+ * @property {boolean} [gen] - If true, module returns a generator that yields each search step and returns the final value.
  * @property {deep-props.set~GetCustomizer} [getCustomizer] - Allows for custom extraction.
+ * @property {deep-props.set~SetCustomizer} [setCustomizer] - Allows for setting within custom objects.
+ * @property {Function} [forceConstructor] - Forces a certain constructor to be used instead when creating new structures.
  * @property {RegExp} [match] - Regular expression used for custom key extraction from supplied path string. If supplied, it is used as the only argument for <code>path.match()</code>, which should return an array of key names.
  * @example
  * {
@@ -128,7 +154,7 @@
  */
 
 /**
- * Sets a value within an Object or Array. Constructs the next level based on type of key if necessary.
+ * Sets a value within an Object or Array.
  *
  * @memberof deep-props.set
  * @param    {deep-props.set~Target} target  - Current reference to a given level of the path.
@@ -149,7 +175,7 @@ const setWithinStandard = (target, key, data) => {
 }
 
 /**
- * Sets a value within an Map or WeakMap. Constructs the next level based on type of key if necessary.
+ * Sets a value within an Map or WeakMap.
  *
  * @memberof deep-props.set
  * @param    {deep-props.set~Target} target  - Current reference to a given level of the path.
@@ -166,7 +192,7 @@ const setWithinMap = (target, key, data) => {
 }
 
 /**
- * Sets a value within an Map or WeakMap. Constructs the next level based on type of key if necessary.
+ * Sets a value within a Set or WeakSet.
  *
  * @memberof deep-props.set
  * @param    {deep-props.set~Target} target  - Current reference to a given level of the path.
@@ -226,7 +252,7 @@ const setWithinSet = (target, key, data) => {
 }
 
 /**
- * Defines a value within an object at a key. Uses key and options to determine the type of constructor to be used. If data is provided, sets a value at key.
+ * Defines a value within an object at a key. Uses next key along the chain (and options) to determine the type of constructor to be used. If data is provided, sets a value at key.
  *
  * @memberof deep-props.set
  * @param    {deep-props.set~Target}  target  - Current reference to a given level of the path.

@@ -2,7 +2,7 @@
 
 /**
  * @author Justin Collier <jpcxme@gmail.com>
- * @see {@link http://github.com/jpcx/deepget|GitHub}
+ * @see {@link http://github.com/jpcx/deep-props.set|GitHub}
  * @license MIT
  */
 
@@ -910,7 +910,11 @@ tests.push(() => {
   const description = `Testing force constructor option...${
     '\n\nData Preparation:'
   }
-    const data = new Map()`
+    const data = {
+      obj: {},
+      map: new Map(),
+      set: new Set()
+    }`
   const operations = []
 
   const data = {
