@@ -133,30 +133,11 @@
  * @memberof deep-props.set
  * @param    {deep-props.set~Target} target  - Current reference to a given level of the path.
  * @param    {deep-props.set~Key}    key     - Key to construct within.
- * @param    {deep-props.set~Key}    nextKey - Next key along the path.
  * @param    {*}                     [data]  - Data to set within target at key.
  */
-const setWithinStandard = (target, key, nextKey, data) => {
-  if (data !== undefined) {
-    target[key] = data
-    return data
-  } else {
-    let newVal
-    if (
-      !isNaN(+nextKey) && (
-        typeof nextKey === 'string' ||
-        typeof nextKey === 'number'
-      )
-    ) {
-      newVal = []
-    } else if (typeof nextKey === 'string') {
-      newVal = {}
-    } else {
-      newVal = new Map()
-    }
-    target[key] = newVal
-    return newVal
-  }
+const setWithinStandard = (target, key, data) => {
+  target[key] = data
+  return data
 }
 
 /**
@@ -165,30 +146,11 @@ const setWithinStandard = (target, key, nextKey, data) => {
  * @memberof deep-props.set
  * @param    {deep-props.set~Target} target  - Current reference to a given level of the path.
  * @param    {deep-props.set~Key}    key     - Key to construct within.
- * @param    {deep-props.set~Key}    nextKey - Next key along the path.
  * @param    {*}                     [data]  - Data to set within target at key.
  */
-const setWithinMap = (target, key, nextKey, data) => {
-  if (data !== undefined) {
-    target.set(key, data)
-    return data
-  } else {
-    let newVal
-    if (
-      !isNaN(+nextKey) && (
-        typeof nextKey === 'string' ||
-        typeof nextKey === 'number'
-      )
-    ) {
-      newVal = []
-    } else if (typeof nextKey === 'string') {
-      newVal = {}
-    } else {
-      newVal = new Map()
-    }
-    target.set(key, newVal)
-    return newVal
-  }
+const setWithinMap = (target, key, data) => {
+  target.set(key, data)
+  return data
 }
 
 /**
@@ -197,67 +159,48 @@ const setWithinMap = (target, key, nextKey, data) => {
  * @memberof deep-props.set
  * @param    {deep-props.set~Target} target  - Current reference to a given level of the path.
  * @param    {deep-props.set~Key}    key     - Key to construct within.
- * @param    {deep-props.set~Key}    nextKey - Next key along the path.
  * @param    {*}                     [data]  - Data to set within target at key.
  */
-const setWithinSet = (target, key, nextKey, data) => {
-  if (data !== undefined) {
-    if (data !== key) {
-      if (
-        !isNaN(+key) && (
-          typeof key === 'string' ||
-          typeof key === 'number'
-        )
-      ) {
-        if (target instanceof Set) {
-          if (+key <= target.size) {
-            if (+key === target.size - 1) {
-              target.delete([...target][+key])
-              target.add(data)
-              return data
-            } else if (+key < target.size - 1) {
-              const cache = [...target]
-              for (let i = +key; i < cache.length; i++) {
-                target.delete(cache[i])
-              }
-              target.add(data)
-              for (let i = +key + 1; i < cache.length; i++) {
-                target.add(cache[i])
-              }
-              return data
-            } else {
-              target.add(data)
-              return data
+const setWithinSet = (target, key, data) => {
+  if (data !== key) {
+    if (
+      !isNaN(+key) && (
+        typeof key === 'string' ||
+        typeof key === 'number'
+      )
+    ) {
+      if (target instanceof Set) {
+        if (+key <= target.size) {
+          if (+key === target.size - 1) {
+            target.delete([...target][+key])
+            target.add(data)
+            return data
+          } else if (+key < target.size - 1) {
+            const cache = [...target]
+            for (let i = +key; i < cache.length; i++) {
+              target.delete(cache[i])
             }
+            target.add(data)
+            for (let i = +key + 1; i < cache.length; i++) {
+              target.add(cache[i])
+            }
+            return data
           } else {
-            throw Error('Iteration order out of bounds')
+            target.add(data)
+            return data
           }
         } else {
-          throw Error('Cannot enumerate WeakSets')
+          throw Error('Iteration order out of bounds')
         }
       } else {
-        throw Error('Invalid iteration order')
+        throw Error('Cannot enumerate WeakSets')
       }
     } else {
-      target.add(data)
-      return data
+      throw Error('Invalid iteration order')
     }
   } else {
-    let newVal
-    if (
-      !isNaN(+nextKey) && (
-        typeof nextKey === 'string' ||
-        typeof nextKey === 'number'
-      )
-    ) {
-      newVal = []
-    } else if (typeof nextKey === 'string') {
-      newVal = {}
-    } else {
-      newVal = new Map()
-    }
-    target.add(newVal)
-    return newVal
+    target.add(data)
+    return data
   }
 }
 
@@ -269,37 +212,48 @@ const setWithinSet = (target, key, nextKey, data) => {
  * @param    {deep-props.set~Key}     key     - Key to construct within.
  * @param    {deep-props.set~Key}     nextKey - Next key along the path.
  * @param    {deep-props.set~Depth}   depth   - Current level of path.
+ * @param    {boolean}                isLast  - True if end of path has been reached.
  * @param    {*}                      data    - Data to set within target.
  * @param    {deep-props.set~Options} opt     - Execution settings.
  * @returns  {deep-props.set~Target}  New reference.
  */
-const setAtKey = (target, key, nextKey, depth, data, opt) => {
-  let newTarget
-  if (opt.setCustomizer instanceof Function) {
-    // newTarget = opt.setCustomizer(target, key, depth, data)
-  }
-  if (newTarget !== undefined) {
-    return newTarget
-  } else {
-    console.log(target)
+const setWithin = (target, key, nextKey, depth, isLast, data, opt) => {
+  if (!isLast) {
     if (
-      target instanceof Map ||
-      target instanceof WeakMap
+      !isNaN(+nextKey) && (
+        typeof nextKey === 'string' ||
+        typeof nextKey === 'number'
+      )
     ) {
-      return setWithinMap(target, key, nextKey, data)
-    } else if (
-      target instanceof Set ||
-      target instanceof WeakSet
-    ) {
-      return setWithinSet(target, key, nextKey, data)
-    } else if (
-      target instanceof Object ||
-      target instanceof Array
-    ) {
-      return setWithinStandard(target, key, nextKey, data)
+      data = []
+    } else if (typeof nextKey === 'string') {
+      data = {}
     } else {
-      throw Error('Could not set data.')
+      data = new Map()
     }
+  }
+  if (opt.setCustomizer instanceof Function) {
+    if (opt.setCustomizer(target, key, depth, data) === true) {
+      return data
+    }
+  }
+  if (
+    target instanceof Map ||
+    target instanceof WeakMap
+  ) {
+    return setWithinMap(target, key, data)
+  } else if (
+    target instanceof Set ||
+    target instanceof WeakSet
+  ) {
+    return setWithinSet(target, key, data)
+  } else if (
+    target instanceof Object ||
+    target instanceof Array
+  ) {
+    return setWithinStandard(target, key, data)
+  } else {
+    throw Error('Could not set data.')
   }
 }
 
@@ -335,7 +289,9 @@ const place = function * (host, path, data, opt) {
     }
     for (let i = depth; i < path.length - 1; i++) {
       try {
-        target = setAtKey(target, path[i], path[i + 1], depth, undefined, opt)
+        target = setWithin(
+          target, path[i], path[i + 1], depth, false, undefined, opt
+        )
         yield host
         depth++
       } catch (e) {
@@ -344,7 +300,7 @@ const place = function * (host, path, data, opt) {
       }
     }
     try {
-      setAtKey(target, path.slice(-1)[0], undefined, depth, data, opt)
+      setWithin(target, path.slice(-1)[0], undefined, depth, true, data, opt)
       yield true
     } catch (e) {
       yield false

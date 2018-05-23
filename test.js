@@ -394,7 +394,6 @@ tests.push(() => {
     },
     result: () => {
       set(data, [ 'foo', 0, ['bar'], 'baz', 0, ['beh'] ], 'qux')
-      console.dir(data, { depth: null, colors: true })
       return data
     }
   })
@@ -463,7 +462,7 @@ const run = module => {
         process.stdout.write('\nExpected:\n')
         dirDeep(op.expect)
         process.stdout.write('\nResult:\n')
-        dirDeep(op.result())
+        dirDeep(result)
         if (assertion === true) {
           console.log(ANSI_GREEN + '[OK]' + ANSI_RESET)
         } else {
