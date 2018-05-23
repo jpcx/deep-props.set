@@ -137,7 +137,11 @@
  */
 const setWithinStandard = (target, key, data) => {
   if (typeof key === 'string' || typeof key === 'number') {
-    target[key] = data
+    if (key !== '__proto__') {
+      target[key] = data
+    } else {
+      Object.setPrototypeOf(target, data)
+    }
     return data
   } else {
     throw Error('Invalid Host type')
@@ -153,7 +157,11 @@ const setWithinStandard = (target, key, data) => {
  * @param    {*}                     [data]  - Data to set within target at key.
  */
 const setWithinMap = (target, key, data) => {
-  target.set(key, data)
+  if (key !== '__proto__') {
+    target.set(key, data)
+  } else {
+    Object.setPrototypeOf(target, data)
+  }
   return data
 }
 
@@ -200,10 +208,19 @@ const setWithinSet = (target, key, data) => {
         throw Error('Cannot enumerate WeakSets')
       }
     } else {
-      throw Error('Invalid iteration order')
+      if (key === '__proto__') {
+        Object.setPrototypeOf(target, data)
+        return data
+      } else {
+        throw Error('Invalid iteration order')
+      }
     }
   } else {
-    target.add(data)
+    if (key !== '__proto__') {
+      target.add(data)
+    } else {
+      Object.setPrototypeOf(target, data)
+    }
     return data
   }
 }

@@ -675,6 +675,95 @@ tests.push(() => {
 // --- Test 17: --- //
 
 tests.push(() => {
+  const description = `Testing __proto__...${
+    '\n\nData Preparation:'
+  }
+    const data = {
+      obj: {},
+      arr: [],
+      map: new Map(),
+      set: new Set(),
+      weakMap: new WeakMap(),
+      weakSet: new WeakSet(),
+      arrayBuffer: new ArrayBuffer(16) // using ArrayBuffer to test other objects.
+    }
+    const testProto = { foo: 'bar' }`
+
+  const operations = []
+
+  const data = {
+    obj: {},
+    arr: [],
+    map: new Map(),
+    set: new Set(),
+    weakMap: new WeakMap(),
+    weakSet: new WeakSet(),
+    arrayBuffer: new ArrayBuffer(16) // using ArrayBuffer to test other objects.
+  }
+  const testProto = { foo: 'bar' }
+
+  operations.push({
+    expect: testProto,
+    result: () => {
+      set(data.obj, ['__proto__'], testProto)
+      return Object.getPrototypeOf(data.obj)
+    }
+  })
+
+  operations.push({
+    expect: testProto,
+    result: () => {
+      set(data.arr, ['__proto__'], testProto)
+      return Object.getPrototypeOf(data.arr)
+    }
+  })
+
+  operations.push({
+    expect: testProto,
+    result: () => {
+      set(data.map, ['__proto__'], testProto)
+      return Object.getPrototypeOf(data.map)
+    }
+  })
+
+  operations.push({
+    expect: testProto,
+    result: () => {
+      set(data.set, ['__proto__'], testProto)
+      return Object.getPrototypeOf(data.set)
+    }
+  })
+
+  operations.push({
+    expect: testProto,
+    result: () => {
+      set(data.weakMap, ['__proto__'], testProto)
+      return Object.getPrototypeOf(data.weakMap)
+    }
+  })
+
+  operations.push({
+    expect: testProto,
+    result: () => {
+      set(data.weakSet, ['__proto__'], testProto)
+      return Object.getPrototypeOf(data.weakSet)
+    }
+  })
+
+  operations.push({
+    expect: testProto,
+    result: () => {
+      set(data.arrayBuffer, ['__proto__'], testProto)
+      return Object.getPrototypeOf(data.arrayBuffer)
+    }
+  })
+
+  return { data, description, operations }
+})
+
+// --- Test 18: --- //
+
+tests.push(() => {
   const description = `Testing custom data structures...${
     '\n\nData Preparation:'
   }
