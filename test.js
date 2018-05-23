@@ -532,18 +532,38 @@ tests.push(() => {
 // --- Test 15: --- //
 
 tests.push(() => {
-  const description = `Testing invalid Set operations...${
+  const description = `Testing errors...${
     '\n\nData Preparation:'
   }
     const data = {
+      obj: {},
       set: new Set(),
       weakSet: new WeakSet()
     }()`
   const operations = []
   const data = {
+    obj: {},
     set: new Set(),
-    weakSet: new WeakSet()
+    weakSet: new WeakSet(),
+    json: JSON.stringify({ foo: 'bar' })
   }
+
+  operations.push({
+    expect: true,
+    result: () => {
+      Object.freeze(data.obj)
+      try {
+        set(data.obj, ['foo'], 'bar')
+        return false
+      } catch (err) {
+        if (err.message === 'Cannot add property foo, object is not extensible') {
+          return true
+        } else {
+          return false
+        }
+      }
+    }
+  })
 
   operations.push({
     expect: true,
@@ -581,7 +601,7 @@ tests.push(() => {
     expect: true,
     result: () => {
       try {
-        set(data.set, ['bar'], 'foo')
+        set(data.set, ['foo'], 'bar')
         return false
       } catch (err) {
         if (err.message === 'Invalid iteration order') {
@@ -592,6 +612,39 @@ tests.push(() => {
       }
     }
   })
+
+  operations.push({
+    expect: true,
+    result: () => {
+      try {
+        set(data.json, [ 'foo', 2 ], 'm')
+        return false
+      } catch (err) {
+        if (err.message === 'Cannot set within strings') {
+          return true
+        } else {
+          return false
+        }
+      }
+    }
+  })
+
+  operations.push({
+    expect: true,
+    result: () => {
+      try {
+        set(data.json, ['baz'], 'beh')
+        return false
+      } catch (err) {
+        if (err.message === 'Cannot set within strings') {
+          return true
+        } else {
+          return false
+        }
+      }
+    }
+  })
+
   return { data, description, operations }
 })
 
@@ -685,7 +738,7 @@ tests.push(() => {
       set: new Set(),
       weakMap: new WeakMap(),
       weakSet: new WeakSet(),
-      arrayBuffer: new ArrayBuffer(16) // using ArrayBuffer to test other objects.
+      arrayBuffer: new ArrayBuffer(16) // using ArrayBuffer to test other objects
     }
     const testProto = { foo: 'bar' }`
 
@@ -698,7 +751,7 @@ tests.push(() => {
     set: new Set(),
     weakMap: new WeakMap(),
     weakSet: new WeakSet(),
-    arrayBuffer: new ArrayBuffer(16) // using ArrayBuffer to test other objects.
+    arrayBuffer: new ArrayBuffer(16) // using ArrayBuffer to test other objects
   }
   const testProto = { foo: 'bar' }
 

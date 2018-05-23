@@ -28,7 +28,7 @@
 /**
  * Key used for accessing a child property within a container. When its value is <code>'__proto__'</code>, it is used as a stand-in for <code>Object.getPrototypeOf()</code>.
  *
- * @typedef {(string|deep-props.set~Container)} deep-props.set~Key
+ * @typedef {*} deep-props.set~Key
  */
 
 /**
@@ -52,14 +52,14 @@
 /**
  * Current reference to a given level of the path; parent to the next key along the path.
  * <ul>
- *   <li> For the host <code>{ foo: { bar: 'baz' } }</code> and a path <code>['foo', 'bar']</code>, the Target value will change during the search as follows:
+ *   <li> For the host <code>{ foo: { bar: 'baz' } }</code> and a path <code>['foo', 'bar']</code>, the Target value will change during the operation as follows:
  *   <ul>
  *     <li> <code>{ bar: 'baz' }</code>
  *     <li> <code>'baz'</code>
  *   </ul>
  *   <li> Unless Target is a primitive type, or has been extracted from within a primitive type (such as a JSON string), Target will be a reference to the host object.
  *   <ul>
- *     <li> In this case, if any of its nested parents are mutable, modifications of a mutable object returned or yielded by get will result in changes to the host object.
+ *     <li> In this case, if any of its nested parents are mutable, modifications of a mutable object returned or yielded by set will result in changes to the host object.
  *   </ul>
  * </ul>
  *
@@ -303,6 +303,9 @@ const place = function * (host, path, data, opt) {
   for (let result of query) {
     if (result !== undefined) {
       target = result
+      if (typeof target === 'string') {
+        throw Error('Cannot set within strings')
+      }
       depth++
       yield target
     }
@@ -311,6 +314,9 @@ const place = function * (host, path, data, opt) {
     target = setWithin(
       target, path[i], path[i + 1], depth, false, undefined, opt
     )
+    if (typeof target === 'string') {
+      throw Error('Cannot set within strings')
+    }
     yield host
     depth++
   }
