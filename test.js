@@ -968,6 +968,28 @@ tests.push(() => {
   return { data, description, operations }
 })
 
+// --- Test 19: --- //
+
+tests.push(() => {
+  const description = `Testing return equivalence...${
+    '\n\nData Preparation:'
+  }
+    const data = {}`
+  const operations = []
+
+  const data = {}
+
+  operations.push({
+    expect: true,
+    result: () => {
+      const ret = set(data, [ 'foo', 'bar' ], 'baz')
+      return data === ret
+    }
+  })
+
+  return { data, description, operations }
+})
+
 /**
  * Output of the run function for use in external testing scripts.
  *

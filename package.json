@@ -1,7 +1,7 @@
 {
   "name": "deep-props.set",
   "version": "0.1.0",
-  "description": "Sets a value within a nested data structure given a path. Creates structure if the path is not found. Supports setting values within Objects, Arrays, Maps, Sets, and WeakMaps; supports creation of Objects, Arrays, and Maps.",
+  "description": "Sets values within nested objects; creates structure if not found. Supports setting within Objects, Arrays, Maps, Sets, WeakMaps, and WeakSets; supports creation of Objects, Arrays, and Maps.",
   "engines": {
     "node": ">=8.7.0"
   },
@@ -21,8 +21,9 @@
     "map",
     "set",
     "weakmap",
-    "bracket",
+    "weakset",
     "dot",
+    "bracket",
     "notation"
   ],
   "author": "Justin Collier",

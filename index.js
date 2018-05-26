@@ -127,6 +127,13 @@
  *       return new Int16Array(target)[key]
  *     }
  *   },
+ *   setCustomizer: (target, key, depth, data) => {
+ *     if (target instanceof ArrayBuffer && target.byteLength === 16) {
+ *       new Int16Array(target)[key] = data
+ *       return true
+ *     }
+ *   },
+ *   forceConstructor: Map,
  *   match: /[^/]+/g
  * }
  */
@@ -318,7 +325,7 @@ const setWithin = (target, key, nextKey, depth, isLast, data, opt) => {
  * @param   {deep-props.set~Path} path - Path to desired property.
  * @param   {*} data - Data to set at endpoint of path.
  * @param   {deep-props.set~Options} opt - Execution settings.
- * @yields  {deep-props.set~Target} Data retrieved at each level of execution; value of Target before reassignment.
+ * @yields  {(deep-props.set~Target|deep-props.set~Host)} While exploring existing structures, yields each level explored. While creating new structures, yields new value of Host. Yields Host at end of search.
  * @returns {undefined} Returns undefined if search has finished executing or if the desired value has not been found.
  */
 const place = function * (host, path, data, opt) {
@@ -352,7 +359,7 @@ const place = function * (host, path, data, opt) {
     depth++
   }
   setWithin(target, path.slice(-1)[0], undefined, depth, true, data, opt)
-  yield true
+  yield host
 }
 
 /**
@@ -364,6 +371,18 @@ const place = function * (host, path, data, opt) {
  * @param   {*} data - Data to set at endpoint of path.
  * @param   {deep-props.set~Options} [opt={}] - Execution settings.
  * @returns {(boolean|deep-props.set~ResultGenerator)} True if successful, false if not. If <code>opt.gen === true</code>, returns a generator that yields each search step.
+ * @example
+ * const data = { foo: { bar: { baz: 'beh' } } }
+ *
+ * // Both return { foo: { bar: { baz: 'qux' } } }
+ * set(data, 'foo.bar.baz', 'qux')
+ * data
+ * @example
+ * const data = {}
+ *
+ * // Both return { foo: { bar: { baz: 'qux' } } }
+ * set(data, 'foo.bar.baz', 'qux')
+ * data
  */
 const set = (host, path, data, opt = {}) => {
   if (
