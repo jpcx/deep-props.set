@@ -2,12 +2,12 @@
 
 Source:
 
-*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js), [line 9](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js#L9)
+*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js), [line 9](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js#L9)
 
 ### Methods
 
 <a name=".place"></a>
-#### (generator, static) place(host, path, data, opt) → \{[deep-props.set~Target](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Target)|[deep-props.set~Host](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Host)}
+#### (generator, static) place(host, path, data, opt) → \{[deep-props.set~Target](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~Target)|[deep-props.set~Host](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~Host)}
 
 Iterates along the supplied path and shifts a reference point along the way. Sets data to last key in path.
 
@@ -15,14 +15,14 @@ Iterates along the supplied path and shifts a reference point along the way. Set
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `host` | [deep-props.set~Host](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Host) | Base container dataset to search within. |
-| `path` | [deep-props.set~Path](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Path) | Path to desired property. |
+| `host` | [deep-props.set~Host](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~Host) | Base container dataset to search within. |
+| `path` | [deep-props.set~Path](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~Path) | Path to desired property. |
 | `data` | * | Data to set at endpoint of path. |
-| `opt` | [deep-props.set~Options](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Options) | Execution settings. |
+| `opt` | [deep-props.set~Options](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~Options) | Execution settings. |
 
 Source:
 
-*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js), [line 331](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js#L331)
+*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js), [line 331](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js#L331)
 
 ##### Returns:
 
@@ -38,10 +38,10 @@ While exploring existing structures, yields each level explored. While creating 
 
 Type
 
-[deep-props.set~Target](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Target) | [deep-props.set~Host](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Host)
+[deep-props.set~Target](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~Target) | [deep-props.set~Host](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~Host)
 
 <a name=".setWithin"></a>
-#### (static) setWithin(target, key, nextKey, depth, isLast, data, opt) → \{[deep-props.set~Target](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Target)}
+#### (static) setWithin(target, key, nextKey, depth, isLast, data, opt) → \{[deep-props.set~Target](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~Target)}
 
 Defines a value within an object at a key. Uses next key along the chain (and options) to determine the type of constructor to be used. If data is provided, sets a value at key.
 
@@ -49,17 +49,17 @@ Defines a value within an object at a key. Uses next key along the chain (and op
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `target` | [deep-props.set~Target](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Target) | Current reference to a given level of the path. |
-| `key` | [deep-props.set~Key](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Key) | Key to construct within. |
-| `nextKey` | [deep-props.set~Key](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Key) | Next key along the path. |
+| `target` | [deep-props.set~Target](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~Target) | Current reference to a given level of the path. |
+| `key` | [deep-props.set~Key](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~Key) | Key to construct within. |
+| `nextKey` | [deep-props.set~Key](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~Key) | Next key along the path. |
 | `depth` | number | Current level of path. |
 | `isLast` | boolean | True if end of path has been reached. |
 | `data` | * | Data to set within target. |
-| `opt` | [deep-props.set~Options](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Options) | Execution settings. |
+| `opt` | [deep-props.set~Options](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~Options) | Execution settings. |
 
 Source:
 
-*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js), [line 274](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js#L274)
+*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js), [line 274](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js#L274)
 
 ##### Returns:
 
@@ -67,7 +67,7 @@ New reference.
 
 Type
 
-[deep-props.set~Target](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Target)
+[deep-props.set~Target](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~Target)
 
 <a name=".setWithinMap"></a>
 #### (static) setWithinMap(target, key, dataopt)
@@ -78,13 +78,13 @@ Sets a value within an Map or WeakMap.
 
 | Name | Type | Attributes | Description |
 | --- | --- | --- | --- |
-| `target` | [deep-props.set~Target](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Target) |  | Current reference to a given level of the path. |
-| `key` | [deep-props.set~Key](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Key) |  | Key to construct within. |
+| `target` | [deep-props.set~Target](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~Target) |  | Current reference to a given level of the path. |
+| `key` | [deep-props.set~Key](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~Key) |  | Key to construct within. |
 | `data` | * | \<optional> | Data to set within target at key. |
 
 Source:
 
-*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js), [line 192](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js#L192)
+*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js), [line 192](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js#L192)
 
 <a name=".setWithinSet"></a>
 #### (static) setWithinSet(target, key, dataopt)
@@ -95,13 +95,13 @@ Sets a value within a Set or WeakSet.
 
 | Name | Type | Attributes | Description |
 | --- | --- | --- | --- |
-| `target` | [deep-props.set~Target](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Target) |  | Current reference to a given level of the path. |
-| `key` | [deep-props.set~Key](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Key) |  | Key to construct within. |
+| `target` | [deep-props.set~Target](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~Target) |  | Current reference to a given level of the path. |
+| `key` | [deep-props.set~Key](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~Key) |  | Key to construct within. |
 | `data` | * | \<optional> | Data to set within target at key. |
 
 Source:
 
-*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js), [line 209](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js#L209)
+*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js), [line 209](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js#L209)
 
 <a name=".setWithinStandard"></a>
 #### (static) setWithinStandard(target, key, dataopt)
@@ -112,13 +112,13 @@ Sets a value within an Object or Array.
 
 | Name | Type | Attributes | Description |
 | --- | --- | --- | --- |
-| `target` | [deep-props.set~Target](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Target) |  | Current reference to a given level of the path. |
-| `key` | [deep-props.set~Key](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Key) |  | Key to construct within. |
+| `target` | [deep-props.set~Target](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~Target) |  | Current reference to a given level of the path. |
+| `key` | [deep-props.set~Key](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~Key) |  | Key to construct within. |
 | `data` | * | \<optional> | Data to set within target at key. |
 
 Source:
 
-*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js), [line 171](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js#L171)
+*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js), [line 171](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js#L171)
 
 ### Type Definitions
 
@@ -129,11 +129,11 @@ Container object used as a target for child property extraction.
 
 ##### Type:
 
-*   Object | Array | Map | WeakMap | Set | WeakSet | [deep-props.set~Custom](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Custom)
+*   Object | Array | Map | WeakMap | Set | WeakSet | [deep-props.set~Custom](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~Custom)
 
 Source:
 
-*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js), [line 34](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js#L34)
+*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js), [line 34](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js#L34)
 
 <a name="~Custom"></a>
 #### Custom
@@ -146,7 +146,7 @@ Custom dataset for use as a [Container](#~Container). May be accessed via valid 
 
 Source:
 
-*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js), [line 11](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js#L11)
+*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js), [line 11](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js#L11)
 
 ##### Example
 
@@ -164,7 +164,7 @@ Source:
 ```
 
 <a name="~GetCustomizer"></a>
-#### GetCustomizer(target, key) → \{[deep-props.set~Target](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Target)}
+#### GetCustomizer(target, key) → \{[deep-props.set~Target](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~Target)}
 
 Function used for custom handling of entry into next level of the dataset.
 
@@ -176,12 +176,12 @@ Function used for custom handling of entry into next level of the dataset.
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `target` | [deep-props.set~Target](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Target) | Current data being analyzed. |
-| `key` | [deep-props.set~Key](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Key) | Next key along the path. |
+| `target` | [deep-props.set~Target](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~Target) | Current data being analyzed. |
+| `key` | [deep-props.set~Key](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~Key) | Next key along the path. |
 
 Source:
 
-*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js), [line 70](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js#L70)
+*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js), [line 70](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js#L70)
 
 ##### Returns:
 
@@ -189,7 +189,7 @@ Value to pass along to the search function as the next Target. If undefined, wil
 
 Type
 
-[deep-props.set~Target](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Target)
+[deep-props.set~Target](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~Target)
 
 ##### Example
 
@@ -208,11 +208,11 @@ A non-primitive [Container](#~Container) which represents the root of a given pa
 
 ##### Type:
 
-*   [deep-props.set~Container](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Container)
+*   [deep-props.set~Container](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~Container)
 
 Source:
 
-*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js), [line 40](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js#L40)
+*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js), [line 40](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js#L40)
 
 <a name="~Key"></a>
 #### Key
@@ -225,7 +225,7 @@ Key used for accessing a child property within a container. When its value is `'
 
 Source:
 
-*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js), [line 28](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js#L28)
+*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js), [line 28](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js#L28)
 
 <a name="~Options"></a>
 #### Options
@@ -241,14 +241,14 @@ Settings for customizing behaviour.
 | Name | Type | Attributes | Description |
 | --- | --- | --- | --- |
 | `gen` | boolean | \<optional> | If true, module returns a generator that yields each search step and returns the final value. |
-| `getCustomizer` | [deep-props.set~GetCustomizer](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~GetCustomizer) | \<optional> | Allows for custom extraction. |
-| `setCustomizer` | [deep-props.set~SetCustomizer](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~SetCustomizer) | \<optional> | Allows for setting within custom objects. |
+| `getCustomizer` | [deep-props.set~GetCustomizer](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~GetCustomizer) | \<optional> | Allows for custom extraction. |
+| `setCustomizer` | [deep-props.set~SetCustomizer](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~SetCustomizer) | \<optional> | Allows for setting within custom objects. |
 | `forceConstructor` | function | \<optional> | Forces a certain constructor to be used instead when creating new structures. |
 | `match` | RegExp | \<optional> | Regular expression used for custom key extraction from supplied path string. If supplied, it is used as the only argument for `path.match()`, which should return an array of key names. |
 
 Source:
 
-*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js), [line 113](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js#L113)
+*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js), [line 113](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js#L113)
 
 ##### Example
 
@@ -285,11 +285,11 @@ Instructions that specify which keys should be accessed at each level of the dat
 
 ##### Type:
 
-*   Array.<[deep-props.set~Key](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Key)> | string
+*   Array.<[deep-props.set~Key](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~Key)> | string
 
 Source:
 
-*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js), [line 141](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js#L141)
+*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js), [line 141](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js#L141)
 
 ##### Examples
 
@@ -316,7 +316,7 @@ Generator object which yields stepwise operation results. While exploring existi
 
 Source:
 
-*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js), [line 46](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js#L46)
+*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js), [line 46](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js#L46)
 
 <a name="~SetCustomizer"></a>
 #### SetCustomizer(target, key, depth, data) → \{boolean|undefined}
@@ -331,14 +331,14 @@ Function used for custom handling of setting values within a data structure.
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `target` | [deep-props.set~Target](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Target) | Current data being analyzed. |
-| `key` | [deep-props.set~Key](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Key) | Next key along the path. |
+| `target` | [deep-props.set~Target](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~Target) | Current data being analyzed. |
+| `key` | [deep-props.set~Key](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~Key) | Next key along the path. |
 | `depth` | number | Current level of depth within the data structure (used for further customization). |
 | `data` | * | Data to set. |
 
 Source:
 
-*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js), [line 90](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js#L90)
+*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js), [line 90](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js#L90)
 
 ##### Returns:
 
@@ -372,12 +372,12 @@ Current reference to a given level of the path; parent to the next key along the
 
 ##### Type:
 
-*   [deep-props.set~Container](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Container) | string | undefined
+*   [deep-props.set~Container](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~Container) | string | undefined
 
 Source:
 
-*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js), [line 53](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js#L53)
+*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js), [line 53](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js#L53)
 
 <hr>
 
-## [Home](https://github.com/jpcx/deep-props.set/blob/0.1.0/README.md)
+## [Home](https://github.com/jpcx/deep-props.set/blob/0.1.1/README.md)
