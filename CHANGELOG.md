@@ -2,7 +2,7 @@ Changelog
 =========
 
 <a name="0.1.0"></a>
-## [0.1.0](https://github.com/jpcx/deep-props.set/tree/0.1.0) (2018-05-23)
+## [0.1.0](https://github.com/jpcx/deep-props.set/tree/0.1.0) (2018-05-26)
 
 __Since: [deep-props 0.3.0](https://github.com/jpcx/deep-props/blob/master/CHANGELOG.md#0.3.0)__
 
