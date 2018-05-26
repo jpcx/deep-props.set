@@ -34,7 +34,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "deep-props.get": "^0.1.4"
+    "deep-props.get": "^0.1.5"
   },
   "devDependencies": {
     "assert": "^1.4.1",
