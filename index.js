@@ -265,7 +265,7 @@ const setWithinSet = (target, key, data) => {
  * @param    {deep-props.set~Target}  target  - Current reference to a given level of the path.
  * @param    {deep-props.set~Key}     key     - Key to construct within.
  * @param    {deep-props.set~Key}     nextKey - Next key along the path.
- * @param    {deep-props.set~Depth}   depth   - Current level of path.
+ * @param    {number}                 depth   - Current level of path.
  * @param    {boolean}                isLast  - True if end of path has been reached.
  * @param    {*}                      data    - Data to set within target.
  * @param    {deep-props.set~Options} opt     - Execution settings.
