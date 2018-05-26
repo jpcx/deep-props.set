@@ -52,7 +52,7 @@ Defines a value within an object at a key. Uses next key along the chain (and op
 | `target` | [deep-props.set~Target](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Target) | Current reference to a given level of the path. |
 | `key` | [deep-props.set~Key](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Key) | Key to construct within. |
 | `nextKey` | [deep-props.set~Key](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Key) | Next key along the path. |
-| `depth` | deep-props.set~Depth | Current level of path. |
+| `depth` | number | Current level of path. |
 | `isLast` | boolean | True if end of path has been reached. |
 | `data` | * | Data to set within target. |
 | `opt` | [deep-props.set~Options](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Options) | Execution settings. |
