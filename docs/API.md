@@ -7,14 +7,14 @@ Sets values within nested objects; creates structure if not found. Supports sett
 
 | Name | Type | Attributes | Default | Description |
 | --- | --- | --- | --- | --- |
-| `host` | [deep-props.set~Host](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~Host) |  |  | Container to search within. |
-| `path` | [deep-props.set~Path](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~Path) |  |  | Path to desired property. |
+| `host` | [deep-props.set~Host](https://github.com/jpcx/deep-props.set/blob/0.1.2/docs/global.md#~Host) |  |  | Container to search within. |
+| `path` | [deep-props.set~Path](https://github.com/jpcx/deep-props.set/blob/0.1.2/docs/global.md#~Path) |  |  | Path to desired property. |
 | `data` | * |  |  | Data to set at endpoint of path. |
-| `opt` | [deep-props.set~Options](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~Options) | \<optional> | {} | Execution settings. |
+| `opt` | [deep-props.set~Options](https://github.com/jpcx/deep-props.set/blob/0.1.2/docs/global.md#~Options) | \<optional> | {} | Execution settings. |
 
 Source:
 
-*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js), [line 365](https://github.com/jpcx/deep-props.set/blob/0.1.1/index.js#L365)
+*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.2/index.js), [line 365](https://github.com/jpcx/deep-props.set/blob/0.1.2/index.js#L365)
 
 ##### Returns:
 
@@ -22,7 +22,7 @@ True if successful, false if not. If `opt.gen === true`, returns a generator tha
 
 Type
 
-boolean | [deep-props.set~ResultGenerator](https://github.com/jpcx/deep-props.set/blob/0.1.1/docs/global.md#~ResultGenerator)
+boolean | [deep-props.set~ResultGenerator](https://github.com/jpcx/deep-props.set/blob/0.1.2/docs/global.md#~ResultGenerator)
 
 ##### Examples
 
@@ -44,4 +44,4 @@ data
 
 <hr>
 
-## [Home](https://github.com/jpcx/deep-props.set/blob/0.1.1/README.md)
+## [Home](https://github.com/jpcx/deep-props.set/blob/0.1.2/README.md)
