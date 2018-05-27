@@ -4,11 +4,22 @@
 
 Sets values within nested objects; creates structure if not found. Supports setting within Objects, Arrays, Maps, Sets, WeakMaps, and WeakSets; supports creation of Objects, Arrays, and Maps.
 
+Uses the [deep-props.get](https://github.com/jpcx/deep-props.get/blob/0.1.6/README.md) module for dataset exploration. As such, allows for setting within all types supported by the deep-props.get module (with the exception of strings).
+
+In terms of new structure creation, keys are analyzed in the following manner in order to determine what kind of structure to construct:
+  + Number keys (or string numbers) construct arrays.
+  + String keys construct Objects.
+  + Object keys construct Maps.
+
+The next key along the path is used during this structure determination.
+
+Behavior can be customized by using either the ```forceConstructor``` or the ```setCustomizer``` settings in the [module options](https://github.com/jpcx/deep-props.set/blob/0.1.2/docs/global.md#~Options).
+
 See the [usage examples](#usage) for an overview of different types of data structures.
 
 ## Getting Started
 
-The following installation, testing, and deployment instructions assume that deep-props.set will be installed as a standalone module. For instructions on how to install and test all deep-props modules, please [refer to the main README](https://github.com/jpcx/deep-props/blob/0.3.0/README.md). Functionality of the module remains the same in both cases.
+The following installation, testing, and deployment instructions assume that deep-props.set will be installed as a standalone module. For instructions on how to install and test all deep-props modules, please [refer to the main README](https://github.com/jpcx/deep-props/blob/master/README.md). Functionality of the module remains the same in both cases.
 
 ### Prerequisites
 
@@ -38,7 +49,7 @@ const set = require('deep-props.set')
 
 ### Usage
 
-***Note:*** For string paths using standard settings, '.' is considered the same as '[' and ']'. See [<code>Options</code>](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Options) for instructions for customizing this behavior.
+***Note:*** For string paths using standard settings, '.' is considered the same as '[' and ']'. See [<code>Options</code>](https://github.com/jpcx/deep-props.set/blob/0.1.2/docs/global.md#~Options) for instructions for customizing this behavior.
 
 **Setting within existing Object structure**
 ```js
@@ -122,8 +133,8 @@ nest
 ## Documentation
 
 ### See:
-  + [API Docs](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/API.md)
-  + [Global Docs](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md)
+  + [API Docs](https://github.com/jpcx/deep-props.set/blob/0.1.2/docs/API.md)
+  + [Global Docs](https://github.com/jpcx/deep-props.set/blob/0.1.2/docs/global.md)
 
 ### Module: set
 
@@ -133,14 +144,14 @@ Sets values within nested objects; creates structure if not found. Supports sett
 
 | Name | Type | Attributes | Default | Description |
 | --- | --- | --- | --- | --- |
-| `host` | [deep-props.set~Host](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Host) |  |  | Container to search within. |
-| `path` | [deep-props.set~Path](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Path) |  |  | Path to desired property. |
+| `host` | [deep-props.set~Host](https://github.com/jpcx/deep-props.set/blob/0.1.2/docs/global.md#~Host) |  |  | Container to search within. |
+| `path` | [deep-props.set~Path](https://github.com/jpcx/deep-props.set/blob/0.1.2/docs/global.md#~Path) |  |  | Path to desired property. |
 | `data` | * |  |  | Data to set at endpoint of path. |
-| `opt` | [deep-props.set~Options](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~Options) | \<optional> | {} | Execution settings. |
+| `opt` | [deep-props.set~Options](https://github.com/jpcx/deep-props.set/blob/0.1.2/docs/global.md#~Options) | \<optional> | {} | Execution settings. |
 
 Source:
 
-*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js), [line 365](https://github.com/jpcx/deep-props.set/blob/0.1.0/index.js#L365)
+*   [deep-props.set/index.js](https://github.com/jpcx/deep-props.set/blob/0.1.2/index.js), [line 365](https://github.com/jpcx/deep-props.set/blob/0.1.2/index.js#L365)
 
 ##### Returns:
 
@@ -148,13 +159,13 @@ True if successful, false if not. If `opt.gen === true`, returns a generator tha
 
 Type
 
-boolean | [deep-props.set~ResultGenerator](https://github.com/jpcx/deep-props.set/blob/0.1.0/docs/global.md#~ResultGenerator)
+boolean | [deep-props.set~ResultGenerator](https://github.com/jpcx/deep-props.set/blob/0.1.2/docs/global.md#~ResultGenerator)
 
 #
 
 ## Versioning
 
-Versioned using [SemVer](http://semver.org/). For available versions, see the [Changelog](https://github.com/jpcx/deep-props.set/blob/0.1.0/CHANGELOG.md).
+Versioned using [SemVer](http://semver.org/). For available versions, see the [Changelog](https://github.com/jpcx/deep-props.set/blob/0.1.2/CHANGELOG.md).
 
 ## Contribution
 
@@ -166,4 +177,4 @@ Please raise an issue if you find any. Pull requests are welcome!
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/jpcx/deep-props.set/blob/0.1.0/LICENSE) file for details
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/jpcx/deep-props.set/blob/0.1.2/LICENSE) file for details
